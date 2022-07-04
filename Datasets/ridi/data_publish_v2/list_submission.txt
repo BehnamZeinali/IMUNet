@@ -1,0 +1,8 @@
+hang_leg_new3,leg
+dan_leg2,leg
+hang_bag_speed2,bag
+dan_bag2,bag
+hang_handheld_speed2,handheld
+hang_handheld_side_test3,handheld
+hang_body_backward2,body
+zhicheng_body2,body
