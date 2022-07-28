@@ -13,7 +13,9 @@ Other than IMUNet, MobileNet, MobileNetV2, MnasNet, and EfficientNetB0 models ha
 # Dataset
 Five datasets have been used in the paper.
 * A new dataset that uses ARcore API for collecting the ground truth, as well as IMU measurements, has been proposed and the dataset is available at:
-A preprocessing step has been added to read and prepare the data. Other datasets are:
+A preprocessing step has been added to read and prepare the data. 
+
+Other datasets are:
 
 1- RONIN which is available at [here](https://ronin.cs.sfu.ca/) 
 
@@ -27,12 +29,12 @@ A preprocessing step has been added to read and prepare the data. Other datasets
 The data-driven method for inertial navigation proposed in [RONIN](https://github.com/Sachini/ronin) for the ResNet18 model with all the new architectures and datasets has been implemented in Tensorflow-Keras as well. 
 
 # Android
-The Android Application is available at [Android](https://github.com/BehnamZeinali/IMUNet_Android)
+The Android Application is available at [Android](https://github.com/BehnamZeinali/IMUNet_Android). 
 It contains three sections: 
 
 1- The application for collecting a new dataset.
 
-2- The test part of the [RONIN](https://github.com/Sachini/ronin) for ResNet8 model using all the proposed models and some samples of the collected dataset has been implemented on Android.
+2- The test part of the [RONIN](https://github.com/Sachini/ronin) for ResNet8 model using all the proposed models and some samples of the collected dataset.
 
 3- A comparison has been implemented to show the efficiency and accuracy of the proposed model. The result can be seen in the video below:  
 
