@@ -1,5 +1,5 @@
 """
-This is the modification of the code in https://github.com/Sachini/ronin
+This is the modification of the code in https://github.com/Sachini/ronin/blob/master/source/ronin_resnet.py
 More datasets and machine learning models have been added to the code
 
 Herath, S., Yan, H. and Furukawa, Y., 2020, May. RoNIN: Robust Neural Inertial Navigation in the Wild:

@@ -4,8 +4,7 @@ Original paper is "MnasNet: Platform-Aware Neural Architecture Search for Mobile
 Link: https://arxiv.org/abs/1807.11626
 
 The implementation in https://github.com/AnjieCheng/MnasNet-PyTorch/blob/master/MnasNet.py has been modified.
-A simple code has been added to calculate the number of FLOPs and parameters
-from https://github.com/1adrianb/pytorch-estimate-flops.
+
 """
 
 

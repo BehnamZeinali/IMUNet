@@ -1,3 +1,7 @@
+"""  This is the IMUNet with modification in https://github.com/Sachini/ronin/blob/master/source/model_resnet1d.py """
+
+
+
 import torch
 import torch.nn as nn
 from collections import OrderedDict
@@ -72,42 +76,6 @@ class BasicBlock1D(nn.Module):
         return out
 
 
-class Bottleneck1D(nn.Module):
-    expansion = 4
-
-    def __init__(self, in_planes, out_planes, kernel_size, stride=1, dilation=1, downsample=None):
-        super(Bottleneck1D, self).__init__()
-        self.conv1 = nn.Conv1d(in_planes, out_planes, kernel_size=1, bias=False)
-        self.bn1 = nn.BatchNorm1d(out_planes)
-        self.conv2 = conv3(out_planes, out_planes, kernel_size, stride, dilation)
-        self.bn2 = nn.BatchNorm1d(out_planes)
-        self.conv3 = nn.Conv1d(out_planes, out_planes * self.expansion, kernel_size=1, bias=False)
-        self.bn3 = nn.BatchNorm1d(out_planes * self.expansion)
-        self.elu = nn.ELU(inplace=True)
-        self.stride = stride
-        self.downsample = downsample
-
-    def forward(self, x):
-        residual = x
-
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.elu(out)
-
-        out = self.conv2(out)
-        out = self.bn2(out)
-        out = self.elu(out)
-
-        out = self.conv3(out)
-        out = self.bn3(out)
-
-        if self.downsample is not None:
-            residual = self.downsample(x)
-
-        out += residual
-        out = self.elu(out)
-
-        return out
 
 
 class FCOutputModule(nn.Module):
@@ -240,9 +208,8 @@ class IMUNet(nn.Module):
         # This improves the model by 0.2~0.3% according to https://arxiv.org/abs/1706.02677
         if zero_init_residual:
             for m in self.modules():
-                if isinstance(m, Bottleneck1D):
-                    nn.init.constant_(m.bn3.weight, 0)
-                elif isinstance(m, BasicBlock1D):
+
+                if isinstance(m, BasicBlock1D):
                     nn.init.constant_(m.bn2.weight, 0)
 
     def forward(self, x):
@@ -266,9 +233,4 @@ if __name__ == '__main__':
     y = net(x_image)
     print(y)
     
-    inp = torch.rand(1,6, 200)
-    from pthflops import count_ops
 
-    # Count the number of FLOPs
-    count_ops(net, inp)
-    print(net.get_num_params())

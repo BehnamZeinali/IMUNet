@@ -4,8 +4,7 @@ Original paper is "MobileNetV2: Inverted Residuals and Linear Bottlenecks"
 Link: https://arxiv.org/abs/1801.04381
 
 The implementation in https://github.com/tonylins/pytorch-mobilenet-v2/blob/master/MobileNetV2.py has been modified.
-A simple code has been added to calculate the number of FLOPs and parameters
-from https://github.com/1adrianb/pytorch-estimate-flops.
+
 """
 
 import torch.nn as nn
@@ -157,8 +156,4 @@ if __name__ == '__main__':
     x_image = Variable(torch.randn(1, 6, 200))
     y = net(x_image)
     print(y)
-    inp = torch.rand(1, 6, 200)
 
-    # Count the number of FLOPs
-    count_ops(net, inp)
-    print(net.get_num_params())

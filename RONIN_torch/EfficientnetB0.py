@@ -4,8 +4,7 @@ Original paper is "EfficientNet: Rethinking Model Scaling for Convolutional Neur
 Link: https://arxiv.org/abs/1905.11946
 
 The implementation in https://github.com/AnjieCheng/MnasNet-PyTorch/blob/master/MnasNet.py has been modified.
-A simple code has been added to calculate the number of FLOPs and parameters
-from https://github.com/1adrianb/pytorch-estimate-flops.
+
 """
 
 from torch.autograd import Variable
@@ -161,9 +160,3 @@ if __name__ == '__main__':
     x_image = Variable(torch.randn(1, 6, 200))
     y = net(x_image)
     print(y)
-    inp = torch.rand(1, 6, 200)
-    from pthflops import count_ops
-
-    # Count the number of FLOPs
-    count_ops(net, inp)
-    print(net.get_num_params())
