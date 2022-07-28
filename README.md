@@ -34,6 +34,6 @@ It contains three sections:
 2- The test part of the [RONIN](https://github.com/Sachini/ronin) for ResNet8 model using all the proposed models and some samples of the collected dataset has been implemented on Android.
 
 3- A comparison has been implemented to show the efficiency and accuracy of the proposed model. The result can be seen in the video below:  
-(https://user-images.githubusercontent.com/29498989/181458393-9f67efb1-1fae-4906-81ad-699ac2f51213.MP4)
+https://user-images.githubusercontent.com/29498989/181458393-9f67efb1-1fae-4906-81ad-699ac2f51213.MP4
 
 
