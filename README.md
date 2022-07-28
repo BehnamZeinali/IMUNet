@@ -2,8 +2,7 @@
 
 This is the Python implementation for the Paper: archive
 A new Architecture called IMUNet which is appropriate for edge-device implementation has been proposed for processing IMU measurements and performing inertial navigation. 
-[Google](https://www.google.com) - _Google | Youtube | Gmail | Maps | PlayStore | GoogleDrive_
-
+[Google](https://www.google.com)
 In this repository, the data-driven method for inertial navigation proposed in [here] (https://github.com/Sachini/ronin) for the ResNet18 model has been modified.
 Other than ResNet18, four state-of-the-art CNN models that have been designed for IoT device implementation have been reimplemented for inertial navigation and IMU sensor processing. 
 
