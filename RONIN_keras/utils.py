@@ -1,5 +1,7 @@
 """
-This is the exact same code in https://github.com/Sachini/ronin 
+Keras implementation for the https://github.com/Sachini/ronin/blob/master/source/utils.py
+
+The preprocessing parts are the same as https://github.com/Sachini/ronin/blob/master/source/utils.py
 
 
 Herath, S., Yan, H. and Furukawa, Y., 2020, May. RoNIN: Robust Neural Inertial Navigation in the Wild:

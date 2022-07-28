@@ -3,9 +3,8 @@ This is the 1-D  version of MobileNet
 Original paper is "MobileNets: Efficient Convolutional Neural Networks for Mobile Vision Applications"
 Link: https://arxiv.org/abs/1704.04861
 
-The implementation in https://hackmd.io/@machine-learning/rk-MSuYFU has been modified.
-A simple code has been added to calculate the number of FLOPs and parameters
-from https://github.com/1adrianb/pytorch-estimate-flops.
+The implementation in https://towardsdatascience.com/building-mobilenet-from-scratch-using-tensorflow-ad009c5dd42c
+
 """
 
 import tensorflow as tf
@@ -18,7 +17,7 @@ from tensorflow.keras.layers import ReLU, GlobalAveragePooling1D, Flatten, Dense
 from tensorflow.keras import Model
 
 # MobileNet block
-def mobilnet_block (x, filters, strides):
+def mb_block (x, filters, strides):
     
     x = DepthwiseConv1D(kernel_size = 3, strides = strides, padding = 'same')(x)
     x = BatchNormalization()(x)
@@ -37,17 +36,17 @@ def MobileNet (input_shape , class_number):
     
     
     # main part of the model
-    x = mobilnet_block(x, filters = 64, strides = 1)
-    x = mobilnet_block(x, filters = 128, strides = 2)
-    x = mobilnet_block(x, filters = 128, strides = 1)
-    x = mobilnet_block(x, filters = 256, strides = 2)
-    x = mobilnet_block(x, filters = 256, strides = 1)
-    x = mobilnet_block(x, filters = 512, strides = 2)
+    x = mb_block(x, filters = 64, strides = 1)
+    x = mb_block(x, filters = 128, strides = 2)
+    x = mb_block(x, filters = 128, strides = 1)
+    x = mb_block(x, filters = 256, strides = 2)
+    x = mb_block(x, filters = 256, strides = 1)
+    x = mb_block(x, filters = 512, strides = 2)
     for _ in range (5):
-         x = mobilnet_block(x, filters = 512, strides = 1)
+         x = mb_block(x, filters = 512, strides = 1)
          
-    x = mobilnet_block(x, filters = 1024, strides = 2)
-    x = mobilnet_block(x, filters = 1024, strides = 1)
+    x = mb_block(x, filters = 1024, strides = 2)
+    x = mb_block(x, filters = 1024, strides = 1)
     x = GlobalAveragePooling1D ()(x)
     x = Flatten()(x)
     output = Dense (units = class_number)(x)
@@ -73,7 +72,7 @@ def get_flops(model, batch_size=None):
     return flops.total_float_ops
 if __name__ == '__main__':
     input_shape =   (6, 200)
-    network  = MobileNetV1_1D(input_shape , 2)
+    network  = MobileNet(input_shape , 2)
     network.summary()
     flops = get_flops(network, batch_size=1)
     print(flops)

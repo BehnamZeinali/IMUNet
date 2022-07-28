@@ -3,9 +3,8 @@ This is the 1-D  version of EfficientNetB0
 Original paper is "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks"
 Link: https://arxiv.org/abs/1905.11946
 
-The implementation in https://github.com/AnjieCheng/MnasNet-PyTorch/blob/master/MnasNet.py has been modified.
-A simple code has been added to calculate the number of FLOPs and parameters
-from https://github.com/1adrianb/pytorch-estimate-flops.
+The implementation in https://github.com/abhoi/Keras-MnasNet has been modified.
+
 """
 
 from tensorflow.keras import  backend

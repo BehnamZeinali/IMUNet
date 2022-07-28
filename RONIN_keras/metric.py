@@ -1,5 +1,5 @@
 """
-This is the exact same code in https://github.com/Sachini/ronin
+This is the exact same code in https://github.com/Sachini/ronin/blob/master/source/metric.py
 
 Herath, S., Yan, H. and Furukawa, Y., 2020, May. RoNIN: Robust Neural Inertial Navigation in the Wild:
 Benchmark, Evaluations, & New Methods. In 2020 IEEE International Conference on Robotics and Automation

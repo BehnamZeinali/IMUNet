@@ -1,9 +1,9 @@
 """
 This is the Edge device simulation implementation using the Tensorflow library. 
-Tensorflow lite models and the tensorflow lite interpreter habe been used.
+Tensorflow lite models and the tensorflow lite interpreter have been used.
 
-First it uploads the .oonx file from each model in a proposed dataset convert the model to .tflite
-and simulate the edge implementation. Same method has been implemented for Adnroid devices
+First it uploads the .onnx file from each model in a proposed dataset convert the model to .tflite
+and simulate the edge implementation. Same method has been implemented for Android devices
 
 
 """

@@ -3,6 +3,7 @@
 Created on Wed Jun 22 14:59:00 2022
 
 @author: behnam
+Keras implementation of https://github.com/Sachini/ronin/blob/master/source/model_resnet1d.py
 """
 
 from keras.callbacks import EarlyStopping
@@ -40,23 +41,7 @@ def ResnetBlock(x , channels , down_sample):
         res = BatchNormalization()(res)
     x = Add()([x, res])
     x = ReLU()(x)
-# def call(self, inputs):
-#     res = inputs
 
-#     x = self.conv_1(inputs)
-#     x = self.bn_1(x)
-#     x = tf.nn.relu(x)
-#     x = self.conv_2(x)
-#     x = self.bn_2(x)
-
-#     if self.__down_sample:
-#         res = self.res_conv(res)
-#         res = self.res_bn(res)
-
-#     # if not perform down sample, then add a shortcut directly
-#     x = self.merge([x, res])
-#     out = tf.nn.relu(x)
-#     return out
     return x
 
 def ResNet18(input_shape=None, n_classes=2):

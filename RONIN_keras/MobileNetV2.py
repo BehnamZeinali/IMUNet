@@ -3,9 +3,8 @@ This is the 1-D  version of MobileNetV2
 Original paper is "MobileNetV2: Inverted Residuals and Linear Bottlenecks"
 Link: https://arxiv.org/abs/1801.04381
 
-The implementation in https://github.com/tonylins/pytorch-mobilenet-v2/blob/master/MobileNetV2.py has been modified.
-A simple code has been added to calculate the number of FLOPs and parameters
-from https://github.com/1adrianb/pytorch-estimate-flops.
+The implementation in https://medium.com/analytics-vidhya/creating-mobilenetsv2-with-tensorflow-from-scratch-c85eb8605342
+
 """
 
 from tensorflow.keras.layers import Input
@@ -52,8 +51,8 @@ def MobileNetV2(input_shape=(224,224,3),n_classes = 1000):
    x = ReLU(6, name='conv1_relu')(x)    # 17 Bottlenecks
    
    x = depthwise_block(x,stride=1,block_id=1)
-   x = projection_block(x, out_channels=16,block_id=1)    
-   x = Bottleneck(x, t = 6, filters = x.shape[-1], out_channels = 24, stride = 2,block_id = 2)    
+   x = projection_block(x, out_channels=16,block_id=1)
+   x = Bottleneck(x, t = 6, filters = x.shape[-1], out_channels = 24, stride = 2,block_id = 2)
    x = Bottleneck(x, t = 6, filters = x.shape[-1], out_channels = 24, stride = 1,block_id = 3)    
    x = Bottleneck(x, t = 6, filters = x.shape[-1], out_channels = 32, stride = 2,block_id = 4)    
    x = Bottleneck(x, t = 6, filters = x.shape[-1], out_channels = 32, stride = 1,block_id = 5)    
@@ -93,7 +92,7 @@ def get_flops(model, batch_size=None):
     return flops.total_float_ops
 if __name__ == '__main__':
     input_shape =   (6, 200)
-    network  = MobileNetV2_1D_Arch(input_shape , 2)
+    network  = MobileNetV2(input_shape , 2)
     network.summary()
     flops = get_flops(network, batch_size=1)
     print(flops)
