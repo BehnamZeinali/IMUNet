@@ -26,7 +26,7 @@ Other datasets are:
 4- Px4 which can be downloaded from [px4](https://px4.io/)  and the scripts provided [here](https://github.com/majuid/DeepNav) has been used to download the data and pre-process it. 
 
 # Keras Implementation
-The data-driven method for inertial navigation proposed in [RONIN](https://github.com/Sachini/ronin) for the ResNet18 model with all the new architectures and datasets has been implemented in Tensorflow-Keras as well. 
+The data-driven method for inertial navigation proposed in [RONIN](https://github.com/Sachini/ronin) for the ResNet18 model with all the new architectures and datasets as well as the proposed architecture have been implemented in Tensorflow-Keras. 
 
 # Android
 The Android Application is available at [Android](https://github.com/BehnamZeinali/IMUNet_Android). 
