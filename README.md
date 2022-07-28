@@ -1,6 +1,7 @@
 # IMUNet: Efficient Regression Architecture for IMU Navigation and Positioning
 
 This is the Python implementation for the Paper: archive
+
 A new Architecture called IMUNet which is appropriate for edge-device implementation has been proposed for processing IMU measurements and performing inertial navigation. 
 
 In this repository, the data-driven method for inertial navigation proposed in [here](https://github.com/Sachini/ronin) for the ResNet18 model has been modified.
