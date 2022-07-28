@@ -13,7 +13,7 @@ Other than IMUNet, MobileNet, MobileNetV2, MnasNet, and EfficientNetB0 models ha
 # Dataset
 Five datasets have been used in the paper.
 * A new dataset that uses ARcore API for collecting the ground truth, as well as IMU measurements, has been proposed and the dataset is available at:
-A preprocessing step has been added to read and prepare the data. Other s=datasets are:
+A preprocessing step has been added to read and prepare the data. Other datasets are:
 
 1- RONIN which is available at [here](https://ronin.cs.sfu.ca/) 
 
