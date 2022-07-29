@@ -12,7 +12,7 @@ Other than IMUNet, MobileNet, MobileNetV2, MnasNet, and EfficientNetB0 models ha
 
 # Dataset
 Five datasets have been used in the paper.
-* A new method for collecting a dataset using Android cellphones that uses [ARCore API](https://developers.google.com/ar/reference) for collecting the ground truth trajectory has been proposed and a dataset using this method along with the method proposed in [RIDI](https://github.com/higerra/ridi_imu) using Lenovo Tango device for collecting the ground truth trajectory has been collected. A preprocessing step has been added to read and prepare the data. The collected dataset can be downloaded from [IMUNet_datset](https://www.dropbox.com/s/lm5fbym7azjn5ws/IMUNet_dataset.zip?dl=0).
+* A new method for collecting a dataset using Android cellphones that uses [ARCore API](https://developers.google.com/ar/reference) for collecting the ground truth trajectory has been proposed and a dataset using this method along with the method proposed in [RIDI](https://github.com/higerra/ridi_imu) using a Lenovo Tango device for collecting the ground truth trajectory has been collected. A preprocessing step has been added to read and prepare the data. The collected dataset can be downloaded from [IMUNet_dataset](https://www.dropbox.com/s/lm5fbym7azjn5ws/IMUNet_dataset.zip?dl=0).
 
 Other datasets are:
 
@@ -33,7 +33,7 @@ It contains three sections:
 
 1- The application for collecting a new dataset.
 
-2- The test part of the [RONIN](https://github.com/Sachini/ronin) for ResNet8 model using all the proposed models and some samples of the collected dataset.
+2- The test part of the [RONIN](https://github.com/Sachini/ronin) for ResNet18 model using all the proposed models and some samples of the collected dataset.
 
 3- A comparison has been implemented to show the efficiency and accuracy of the proposed model. The result can be seen in the video below:  
 
