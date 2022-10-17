@@ -28,9 +28,9 @@ from math import pi, cos
 
 
 import keras.backend as K
-from model_resnet1d import ResNet18
-from MobileNetV2 import MobileNetV2_1D_Arch
-from MobileNet import MobileNetV1_1D
+from ResNet18 import ResNet18
+from MobileNetV2 import MobileNetV2
+from MobileNet import MobileNet
 from MnasNet import MnasNet
 
 from EfficientnetB0 import EfficientNetB0
@@ -45,7 +45,7 @@ def get_model(arch):
     input_shape =   (6, 200)
     if arch == 'ResNet':
         
-        network = ResNet18(n_class)   
+        network = ResNet18(input_shape, n_class)   
     elif arch == 'MobileNetV2':
         network = MobileNetV2_1D_Arch(input_shape , n_class)
     elif arch == 'MobileNet':
@@ -57,7 +57,7 @@ def get_model(arch):
     elif arch == 'EfficientNet':
         network  =EfficientNetB0(input_shape=( 6, 200), pooling='avg', nb_classes= n_class)
     elif arch == 'IMUNet':
-       network  =IMUNet(n_class)
+       network  =IMUNet(input_shape, n_class)
     else:
         raise ValueError('Invalid architecture: ', args.arch)
     return network
