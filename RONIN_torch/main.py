@@ -49,11 +49,11 @@ def get_model(arch):
         network = EfficientNetB0(n_class=2)
         print(network)
     elif arch == 'IMUNet':
-        network = IMUNet(_input_channel, n_class, BasicBlock1D, [2, 2, 2, 2],
+        network = IMUNet(_input_channel, n_class, DSConv, [2, 2, 2, 2],
                            base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
         print(network)
     # elif arch == 'imunet_1':
-    # network = IMUNet_1(_input_channel, _output_channel, BasicBlock1D, [2, 2, 2, 2],
+    # network = IMUNet_1(_input_channel, _output_channel, , [2, 2, 2, 2],
     # base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
     # elif arch == 'imunet_2':
     # network = IMUNet_2(2)
