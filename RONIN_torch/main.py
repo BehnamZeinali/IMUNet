@@ -19,7 +19,7 @@ from model_resnet1d import *
 from MobileNetV2 import MobileNetV2
 from MobileNet import MobileNet
 from MnasNet import MnasNet
-from IMUNet import IMUNet
+from IMUNet import *
 # from IMUNet_1_Pytorch import IMUNet_1
 # from IMUNet_2_Pytorch import IMUNet_2
 from EfficientnetB0 import EfficientNetB0
