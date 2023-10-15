@@ -159,8 +159,8 @@ def get_flops(model, batch_size=None):
                                             run_meta=run_meta, cmd='op', options=opts)
     return flops.total_float_ops
 if __name__ == '__main__':
-    input_shape =   (6, 200)
-    network  =  MnasNet(input_shape=( 6, 200), pooling='avg', nb_classes= 2)
+    input_shape =   (200, 6)
+    network  =  MnasNet(input_shape = (200, 6), pooling='avg', nb_classes= 2)
     network.summary()
     flops = get_flops(network, batch_size=1)
     print(flops)
