@@ -579,7 +579,7 @@ class CustomDataGen(tf.keras.utils.Sequence):
             if self.transform is not None:
                 feat, targ = self.transform(feat, targ)
             
-            feat_list.append(feat.T)
+            feat_list.append(feat)
             target_list.append(targ)
         
         feat = np.array(feat_list)
