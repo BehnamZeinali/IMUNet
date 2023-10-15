@@ -210,9 +210,9 @@ def train(args, **kwargs):
     #     tf.compat.v1.reset_default_graph()
 
     #     return flops.total_float_ops
-    input_shape =   ( 6, 200)
+    input_shape =   ( 200, 6)
     if (args.arch == 'ResNet' or args.arch == 'IMUNet' ):
-        input_shape =   ( None , 6, 200)
+        input_shape =   ( None , 200, 6)
     model = get_model(args.arch)
     # model = model_object.getModel(input_shape[1:])
     model.build(input_shape = input_shape)
