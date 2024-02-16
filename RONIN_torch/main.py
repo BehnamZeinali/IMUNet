@@ -1,5 +1,5 @@
 """
-This is the modification of the code in https://github.com/Sachini/ronin/blob/master/source/ronin_resnet.py
+This is the modification of the code in https://github.com/Sachini/ronin
 More datasets and machine learning models have been added to the code
 
 Herath, S., Yan, H. and Furukawa, Y., 2020, May. RoNIN: Robust Neural Inertial Navigation in the Wild:
@@ -20,10 +20,14 @@ from MobileNetV2 import MobileNetV2
 from MobileNet import MobileNet
 from MnasNet import MnasNet
 from IMUNet import *
+from CNN_LSTM import *
 # from IMUNet_1_Pytorch import IMUNet_1
 # from IMUNet_2_Pytorch import IMUNet_2
 from EfficientnetB0 import EfficientNetB0
 from torch.autograd import Variable
+import torch
+
+# torch.autograd.set_detect_anomaly(True)
 
 
 _fc_config = {'fc_dim': 512, 'in_dim': 7, 'dropout': 0.5, 'trans_planes': 128}
@@ -37,6 +41,8 @@ def get_model(arch):
     if arch == 'ResNet':
         network = ResNet1D(6, n_class, BasicBlock1D, [2, 2, 2, 2],
                            base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
+        
+        
 
     elif arch == 'MobileNetV2':
         network = MobileNetV2()
@@ -49,11 +55,25 @@ def get_model(arch):
         network = EfficientNetB0(n_class=2)
         print(network)
     elif arch == 'IMUNet':
-        network = IMUNet(_input_channel, n_class, DSConv, [2, 2, 2, 2],
-                           base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
+        # network = IMUNet(_input_channel, n_class, DSConv, [2, 2, 2, 2],
+        #                     base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
+        # _fc_config = {'fc_dim': 512, 'in_dim': 6, 'dropout': 0.5, 'trans_planes': 200}
+        # network = IMUNet(_input_channel, _output_channel, DSConv, [2, 2, 2, 2],
+        #                     base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
+        
+        network = IMUNet(num_classes= 2, input_size= (1,6,200) ,sampling_rate= 200, num_T = 32 , num_S = 64 , hidden = 64, dropout_rate = 0.5)
+        print(network)
+    elif arch == 'LSTM':
+    # network = IMUNet(_input_channel, n_class, DSConv, [2, 2, 2, 2],
+    #                     base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
+    # _fc_config = {'fc_dim': 512, 'in_dim': 6, 'dropout': 0.5, 'trans_planes': 200}
+    # network = IMUNet(_input_channel, _output_channel, DSConv, [2, 2, 2, 2],
+    #                     base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
+    
+        network = CNN_LSTM(3, 130)
         print(network)
     # elif arch == 'imunet_1':
-    # network = IMUNet_1(_input_channel, _output_channel, , [2, 2, 2, 2],
+    # network = IMUNet_1(_input_channel, _output_channel, BasicBlock1D, [2, 2, 2, 2],
     # base_plane=64, output_block=FCOutputModule, kernel_size=3, **_fc_config)
     # elif arch == 'imunet_2':
     # network = IMUNet_2(2)
@@ -69,6 +89,8 @@ def run_test(network, data_loader, device, eval_mode=True):
     if eval_mode:
         network.eval()
     for bid, (feat, targ, _, _) in enumerate(data_loader):
+        if (args.arch == 'IMUNet_'):
+            feat = feat.unsqueeze(1)
         pred = network(feat.to(device)).cpu().detach().numpy()
         targets_all.append(targ.detach().numpy())
         preds_all.append(pred)
@@ -227,6 +249,8 @@ def train(args, **kwargs):
             network.train()
             train_outs, train_targets = [], []
             for batch_id, (feat, targ, _, _) in enumerate(train_loader):
+                if (args.arch == 'IMUNet_'):
+                    feat = feat.unsqueeze(1)
                 feat, targ = feat.to(device), targ.to(device)
                 optimizer.zero_grad()
                 pred = network(feat)
@@ -292,7 +316,7 @@ def recon_traj_with_preds(dataset, preds, seq_id=0, **kwargs):
     Reconstruct trajectory with predicted global velocities.
     """
     ts = dataset.ts[seq_id]
-    ind = np.array([i[1] for i in dataset.index_map if i[0] == seq_id], dtype=np.int)
+    ind = np.array([i[1] for i in dataset.index_map if i[0] == seq_id], dtype=np.int64)
     dts = np.mean(ts[ind[1:]] - ts[ind[:-1]])
     pos = np.zeros([preds.shape[0] + 2, 2])
     pos[0] = dataset.gt_pos[seq_id][0, :2]
@@ -345,11 +369,13 @@ def test_sequence(args):
     if args.dataset == 'proposed':
         from torchsummary import summary
         dummy_input = Variable(torch.randn(1, 6, 200))
+        print (args.out_dir)
         torch.onnx.export(network, dummy_input, args.out_dir + '/model.onnx')
     network.eval().to(device)
     print('Model {} loaded to device {}.'.format(args.model_path, device))
 
-    preds_seq, targets_seq, losses_seq, ate_all, rte_all = [], [], [], [], []
+    preds_seq, targets_seq, losses_seq, ate_all, rte_all ,  = [], [], [], [], []
+    pos_cum_error_all, pos_error_all ,  = [], []
     traj_lens = []
 
     pred_per_min = 200 * 60
@@ -357,7 +383,7 @@ def test_sequence(args):
     for data in test_data_list:
         seq_dataset = get_dataset(root_dir, [data], args, mode='test')
         seq_loader = DataLoader(seq_dataset, batch_size=1024, shuffle=False)
-        ind = np.array([i[1] for i in seq_dataset.index_map if i[0] == 0], dtype=np.int)
+        ind = np.array([i[1] for i in seq_dataset.index_map if i[0] == 0], dtype=np.int64)
 
         targets, preds = run_test(network, seq_loader, device, True)
         losses = np.mean((targets - preds) ** 2, axis=0)
@@ -374,7 +400,9 @@ def test_sequence(args):
             ate_all.append(ate)
             rte_all.append(rte)
             pos_cum_error = np.linalg.norm(pos_pred - pos_gt, axis=1)
-
+            pos_error = pos_pred - pos_gt
+            pos_cum_error_all.append(np.mean(pos_cum_error))
+            pos_error_all.append(np.mean(pos_error))
             print('Sequence {}, loss {} / {}, ate {:.6f}, rte {:.6f}'.format(data, losses, np.mean(losses), ate, rte))
 
             # Plot figures
@@ -408,6 +436,11 @@ def test_sequence(args):
             if args.out_dir is not None and osp.isdir(args.out_dir):
                 np.save(osp.join(args.out_dir, data + '_gsn.npy'),
                         np.concatenate([pos_pred[:, :2], pos_gt[:, :2]], axis=1))
+                
+                np.save(osp.join(args.out_dir, data + 'pos_cum_error.npy'),
+                        pos_cum_error)
+                np.save(osp.join(args.out_dir, data + 'pos_error.npy'),
+                        pos_error)
                 plt.savefig(osp.join(args.out_dir, data + '_gsn.png'))
 
             plt.close('all')
@@ -477,6 +510,17 @@ def test_sequence(args):
 
         print('----------\nOverall loss: {}/{}, avg ATE:{}, avg RTE:{}'.format(
             np.average(losses_seq, axis=0), np.average(losses_avg), np.mean(ate_all), np.mean(rte_all)))
+        np.save(osp.join(args.out_dir, 'pos_cum_error_all.npy'),
+                np.array(pos_cum_error_all))
+        
+        np.save(osp.join(args.out_dir, 'pos_error_all.npy'),
+               np.array(pos_error_all))
+        
+        np.save(osp.join(args.out_dir,  'ate_all.npy'),
+                np.array(ate_all))
+        
+        np.save(osp.join(args.out_dir,  'rte_all.npy'),
+                np.array(rte_all))
     else:
         
         if args.out_dir is not None and osp.isdir(args.out_dir):
@@ -493,6 +537,8 @@ def test_sequence(args):
 
         print('----------\nOverall loss: {}/{}, avg ATE:{}'.format(
             np.average(losses_seq, axis=0), np.average(losses_avg), np.mean(ate_all)))
+        
+        
 
     return losses_avg
 
@@ -534,8 +580,8 @@ if __name__ == '__main__':
     parser.add_argument('--test_path', type=str, default=None)
     parser.add_argument('--root_dir', type=str, default='', help='Path to data directory')
     parser.add_argument('--cache_path', type=str, default=None, help='Path to cache folder to store processed data')
-    parser.add_argument('--dataset', type=str, default='px4',
-                        choices=['ronin', 'ridi', 'proposed', 'oxiod', 'px4'])
+    parser.add_argument('--dataset', type=str, default='ronin',
+                        choices=['ronin', 'ridi', 'proposed', 'oxiod'])
     parser.add_argument('--max_ori_error', type=float, default=20.0)
     parser.add_argument('--step_size', type=int, default=10)
     parser.add_argument('--window_size', type=int, default=200)
@@ -543,8 +589,8 @@ if __name__ == '__main__':
     parser.add_argument('--lr', type=float, default=1e-04)
     parser.add_argument('--batch_size', type=int, default=128)
     parser.add_argument('--epochs', type=int, default=300)
-    parser.add_argument('--arch', type=str, default='IMUNet',
-             choices=['ResNet', 'MobileNet', 'MobileNetV2','MnasNet', 'EfficientNet', 'IMUNet'])
+    parser.add_argument('--arch', type=str, default='MnasNet',
+             choices=['ResNet', 'MobileNet','MnasNet', 'EfficientNet', 'IMUNet'])
     parser.add_argument('--cpu', action='store_true')
     parser.add_argument('--run_ekf', action='store_true')
     parser.add_argument('--fast_test', action='store_true')
@@ -595,12 +641,7 @@ if __name__ == '__main__':
             args.val_list = ''
             args.root_dir = current_dir + '/Datasets/oxiod'
             args.out_dir = current_dir +'/RONIN_torch/Train_out/' + args.arch + '/oxiod'
-        elif dataset == 'px4':
-            args.step_size = 1
-            args.train_list = ''
-            args.val_list = ''
-            args.root_dir = current_dir + '/Datasets/px4'
-            args.out_dir = current_dir +'/RONIN_torch/Train_out/' + args.arch + '/px4'
+        
         train(args)
     elif args.mode == 'test':
         if args.test_status == 'unseen':
@@ -636,19 +677,17 @@ if __name__ == '__main__':
         elif dataset == 'proposed':
             args.model_path = current_dir + '/RONIN_torch/Train_out/' + args.arch + '/proposed/checkpoints' \
                                                                                     '/checkpoint_best.pt'
-            args.test_list = current_dir + '/Datasets/proposed/list_test.txt'
-            args.root_dir = current_dir + '/Datasets/proposed'
-            args.out_dir = current_dir + '/RONIN_torch/Test_out/proposed/' + args.arch
+           
+            args.root_dir = current_dir + '/Datasets/proposed' 
+           
+            args.test_list = current_dir + '/Datasets/proposed/list_test.txt'      
+            args.out_dir = current_dir + '/RONIN_torch/Test_out/proposed/seen/' + args.arch
         elif dataset == 'oxiod':
-            args.model_path =  current_dir + '/RONIN_torch/Train_out/' + args.arch + '/oxiod/checkpoints/checkpoint_latest.pt'
+            args.model_path =  current_dir + '/RONIN_torch/Train_out/' + args.arch + '/oxiod/checkpoints/checkpoint_best.pt'
             args.test_list = current_dir +  '/Datasets/oxiod/'
             args.root_dir = current_dir + '/Datasets/oxiod'
             args.out_dir = current_dir + '/RONIN_torch/Test_out/oxiod/' + args.arch
-        elif dataset == 'px4':
-            args.model_path = current_dir + '/RONIN_torch/Train_out/' + args.arch + '/px4/checkpoints/checkpoint_latest.pt'
-            args.test_list = current_dir +  '/Datasets/px4/'
-            args.root_dir = current_dir + '/Datasets/px4'
-            args.out_dir = current_dir + '/RONIN_torch/Test_out/px4/' + args.arch
+      
         test_sequence(args)
         # onnx_convertor()
     else:
