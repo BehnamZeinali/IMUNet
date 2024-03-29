@@ -12,7 +12,7 @@ Other than IMUNet, MobileNet, MnasNet, and EfficientNetB0 models have been re-im
 
 # Dataset
 Four datasets have been used in the paper.
-* A new method for collecting a dataset using Android cellphones that uses [ARCore API](https://developers.google.com/ar/reference) for collecting the ground truth trajectory has been proposed and a dataset using this method along with the method proposed in [RIDI](https://github.com/higerra/ridi_imu) using a Lenovo Tango device for collecting the ground truth trajectory has been collected. A preprocessing step has been added to read and prepare the data. The collected dataset can be downloaded from [IMUNet_dataset](hhttps://drive.google.com/file/d/1A49YZ1G8vkEJPIb51n-MFITropK4pIhu/view?usp=drive_link). Also, you can download the pre-trained models in Pytorch from [pre-trained models](https://drive.google.com/file/d/1NGwBhvh-KjVg0CpMeFtYI72G4J0LOPWE/view?usp=sharing). 
+* A new method for collecting a dataset using Android cellphones that uses [ARCore API](https://developers.google.com/ar/reference) for collecting the ground truth trajectory has been proposed and a dataset using this method along with the method proposed in [RIDI](https://github.com/higerra/ridi_imu) using a Lenovo Tango device for collecting the ground truth trajectory has been collected. A preprocessing step has been added to read and prepare the data. The collected dataset can be downloaded from [IMUNet_dataset](https://drive.google.com/file/d/1A49YZ1G8vkEJPIb51n-MFITropK4pIhu/view?usp=drive_link). Also, you can download the pre-trained models in Pytorch from [pre-trained models](https://drive.google.com/file/d/1NGwBhvh-KjVg0CpMeFtYI72G4J0LOPWE/view?usp=sharing). 
 
 Other datasets are:
 
