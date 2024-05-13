@@ -1,4 +1,4 @@
-# IMUNet: Efficient Regression Architecture for IMU Navigation and Positioning
+# IMUNet: Efficient Regression Architecture for Inertial IMU Navigation and Positioning
 
 This is the Python implementation for the Paper: [IMUNet](https://ieeexplore.ieee.org/abstract/document/10480886)
 
