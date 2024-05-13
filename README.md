@@ -1,6 +1,6 @@
 # IMUNet: Efficient Regression Architecture for IMU Navigation and Positioning
 
-This is the Python implementation for the Paper: [IMUNet](https://arxiv.org/abs/2208.00068)
+This is the Python implementation for the Paper: [IMUNet](https://ieeexplore.ieee.org/abstract/document/10480886)
 
 A new Architecture called IMUNet which is appropriate for edge-device implementation has been proposed for processing IMU measurements and performing inertial navigation. 
 
@@ -8,7 +8,7 @@ In this repository, the data-driven method for inertial navigation proposed in [
 Other than ResNet18, three state-of-the-art CNN models that have been designed for IoT device implementation have been reimplemented for inertial navigation and IMU sensor processing. 
 
 # Architectures
-Other than IMUNet, MobileNet, MnasNet, and EfficientNetB0 models have been re-implemented to work with one-dimensional IMU mesurements. 
+Other than IMUNet, MobileNet, MnasNet, and EfficientNetB0 models have been re-implemented to work with one-dimensional IMU measurements. 
 
 # Dataset
 Four datasets have been used in the paper.
@@ -25,6 +25,17 @@ Other datasets are:
 
 # Keras Implementation
 The data-driven method for inertial navigation proposed in [RONIN](https://github.com/Sachini/ronin) for the ResNet18 model with all the new architectures and datasets as well as the proposed architecture have been implemented in Tensorflow-Keras. 
+
+# Citation
+
+@article{zeinali2024imunet,
+  title={IMUNet: Efficient Regression Architecture for Inertial IMU Navigation and Positioning},
+  author={Zeinali, Behnam and Zanddizari, Hadi and Chang, Morris J},
+  journal={IEEE Transactions on Instrumentation and Measurement},
+  year={2024},
+  publisher={IEEE}
+}
+
 
 # Android
 The Android Application for collecting a new dataset is available at [Android](https://github.com/BehnamZeinali/IMUNet_Android). 
